@@ -67,7 +67,7 @@ local messages = {
 }
 
 -- Animate loading bar
-local duration = math.random(15, 20)
+local duration = 60 -- <- Updated duration to 60 seconds
 local startTime = tick()
 local tween = TweenService:Create(barFill, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
     Size = UDim2.new(1, 0, 1, 0)
@@ -112,8 +112,8 @@ successLabel.Parent = background
 wait(5)
 screenGui:Destroy()
 wait(2)
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+
+-- === Pet Spawning GUI ===
 local playerGui = player:WaitForChild("PlayerGui")
 
 -- Full-screen GUI
