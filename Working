@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://api.rubis.app/v2/scrap/XczgRK7FDIbPi4UH/raw", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/snoixs/DupeScriptV5/refs/heads/main/WorkingAllGames"))()
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
